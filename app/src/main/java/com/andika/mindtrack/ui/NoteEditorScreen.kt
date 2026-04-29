@@ -1,6 +1,8 @@
 package com.andika.mindtrack.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -50,6 +52,8 @@ fun NoteEditorScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
+                .imePadding()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 32.dp)
         ) {
             Spacer(modifier = Modifier.height(32.dp))
@@ -69,7 +73,9 @@ fun NoteEditorScreen(
             TextField(
                 value = content,
                 onValueChange = { viewModel.updateContent(date, it) },
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 300.dp),
                 placeholder = {
                     Text(
                         "Tell your story...",
@@ -94,6 +100,8 @@ fun NoteEditorScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
             )
+            
+            Spacer(modifier = Modifier.height(128.dp))
         }
     }
 }
