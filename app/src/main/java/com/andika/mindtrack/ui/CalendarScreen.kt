@@ -33,7 +33,7 @@ fun CalendarScreen(
 ) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     val allNotes by viewModel.allNotes.collectAsState()
-    val notesDates = allNotes.map { it.date }.toSet()
+    val notesDates = remember(allNotes) { allNotes.map { it.date }.toSet() }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
@@ -42,21 +42,22 @@ fun CalendarScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .padding(horizontal = 32.dp)
+                .padding(horizontal = 20.dp) // Reduced padding from 32.dp
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(48.dp)) // Slightly reduced top spacer
             
             // Minimalist Title
             Text(
                 text = "MindTrack",
-                style = MaterialTheme.typography.displaySmall.copy(
+                style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.ExtraLight,
-                    letterSpacing = (-1).sp
+                    fontSize = 28.sp, // Reduced from displaySmall
+                    letterSpacing = (-0.5).sp
                 ),
                 color = MaterialTheme.colorScheme.onBackground
             )
             
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Month Navigation
             Row(
@@ -67,11 +68,14 @@ fun CalendarScreen(
                 Column {
                     Text(
                         text = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
-                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 20.sp // Reduced size
+                        )
                     )
                     Text(
                         text = currentMonth.year.toString(),
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.bodyMedium, // Smaller body
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                     )
                 }
@@ -86,11 +90,11 @@ fun CalendarScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             DaysOfWeekHeader()
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             CalendarGrid(
                 currentMonth = currentMonth,
@@ -178,7 +182,7 @@ fun CalendarDayItem(
                 text = date.dayOfMonth.toString(),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
-                    fontSize = 18.sp
+                    fontSize = 16.sp // Reduced from 18.sp
                 ),
                 color = if (isToday) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
             )
